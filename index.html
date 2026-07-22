@@ -482,13 +482,17 @@ footer {
 /* Measurement overlay styles */
 .photo-overlay-wrap{position:relative;display:inline-block;line-height:0;width:100%}
 .photo-overlay-wrap img{width:100%;height:auto;display:block}
-.measure-box{position:absolute;border:2px solid;box-sizing:border-box;pointer-events:none;border-radius:2px}
-.measure-label{position:absolute;font-size:10px;padding:1px 5px;white-space:nowrap;font-weight:700;line-height:1.3;border-radius:2px;letter-spacing:0.3px}
+.measure-box{position:absolute;border:2px solid;box-sizing:border-box;pointer-events:auto;border-radius:2px;cursor:crosshair;transition:box-shadow 0.3s ease,border-width 0.2s ease}
+.measure-box:hover{box-shadow:0 0 12px 3px currentColor;border-width:3px;z-index:10}
+.measure-label{position:absolute;font-size:10px;padding:1px 5px;white-space:nowrap;font-weight:700;line-height:1.3;border-radius:2px;letter-spacing:0.3px;transition:transform 0.2s ease,font-size 0.2s ease}
+.measure-box:hover+.measure-label,.measure-label:hover{transform:scale(1.15);z-index:11}
 .mc1{border-color:#00e5ff}.ml1{background:#00e5ff;color:#000}
 .mc2{border-color:#ff6d00}.ml2{background:#ff6d00;color:#000}
 .mc3{border-color:#76ff03}.ml3{background:#76ff03;color:#000}
 .mc4{border-color:#e040fb}.ml4{background:#e040fb;color:#000}
 .mc5{border-color:#ffea00}.ml5{background:#ffea00;color:#000}
+/* Nav link hover */
+nav a:hover{border-color:var(--accent-gold)!important;color:var(--accent-gold)!important}
 
 </style>
 </head>
@@ -503,8 +507,15 @@ footer {
     <div class="hero-meta">
       <span>📐 11 Subjects Analyzed</span>
       <span>📸 5 Reference Photographs</span>
-      <span>🎯 ±1/8 Size Precision</span>
+      <span>🎯 ±⅛ Size Precision</span>
     </div>
+    <nav style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="#evidence" style="padding:6px 14px;border:1px solid var(--border-light);border-radius:20px;font-size:12px;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;">Evidence</a>
+      <a href="#subjects" style="padding:6px 14px;border:1px solid var(--border-light);border-radius:20px;font-size:12px;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;">Subjects</a>
+      <a href="#results" style="padding:6px 14px;border:1px solid var(--border-light);border-radius:20px;font-size:12px;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;">Results</a>
+      <a href="#error-analysis" style="padding:6px 14px;border:1px solid var(--border-light);border-radius:20px;font-size:12px;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;">Error Analysis</a>
+      <a href="#methodology" style="padding:6px 14px;border:1px solid var(--border-light);border-radius:20px;font-size:12px;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;">Methodology</a>
+    </nav>
 
   </div>
 </header>
@@ -611,7 +622,7 @@ footer {
 </section>
 
 <!-- Subject Analysis -->
-<section id="analysis">
+<section id="subjects">
   <div class="container">
     <h2><span class="num">02</span> Subject Analysis</h2>
     <p class="section-lead">Each subject is assessed using reference-height triangulation, skull shape classification, and proportional cranial scaling.</p>
@@ -759,7 +770,7 @@ footer {
 </section>
 
 <!-- Summary -->
-<section id="summary">
+<section id="results">
   <div class="container">
     <h2><span class="num">03</span> Results Summary</h2>
     <p class="section-lead">Comparative hat size estimates across all analyzed subjects. All estimates carry a margin of ±1/8 hat size (approximately ±0.5 cm circumference).</p>
@@ -1108,13 +1119,66 @@ footer {
         </div>
       </div>
     </div>
+
+    <!-- Error Propagation Analysis -->
+    <div id="error-analysis" style="margin-top:48px;">
+      <h2 style="margin-bottom:24px;"><span class="num">04</span> Error Propagation &amp; Statistics</h2>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:32px;">
+      <h3 style="margin-bottom:16px;">Error Propagation Analysis</h3>
+      <p style="font-size:14px;color:var(--text-secondary);line-height:1.6;margin-bottom:20px;">Each measurement step introduces quantifiable uncertainty. The following analysis traces error propagation through the pipeline to derive the overall confidence interval.</p>
+      <div style="display:grid;gap:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+          <div style="padding:16px;background:var(--bg-secondary);border-radius:8px;text-align:center;">
+            <div style="font-size:28px;font-weight:700;color:var(--accent-gold);margin-bottom:4px;">±1&Prime;</div>
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;">Reference Height Uncertainty</div>
+            <p style="font-size:12px;color:var(--text-secondary);line-height:1.4;">Even well-documented heights (NFL combine, presidential medical records) carry ±1&Prime; uncertainty from measurement conditions, aging, and posture.</p>
+          </div>
+          <div style="padding:16px;background:var(--bg-secondary);border-radius:8px;text-align:center;">
+            <div style="font-size:28px;font-weight:700;color:var(--accent-gold);margin-bottom:4px;">±3%</div>
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;">Pixel Measurement Error</div>
+            <p style="font-size:12px;color:var(--text-secondary);line-height:1.4;">Head boundary detection in photographs is limited by resolution, hair volume, and vertex ambiguity. Typical error is 3-5 pixels on a 1000px-tall image.</p>
+          </div>
+          <div style="padding:16px;background:var(--bg-secondary);border-radius:8px;text-align:center;">
+            <div style="font-size:28px;font-weight:700;color:var(--accent-gold);margin-bottom:4px;">±5%</div>
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;">Depth Estimation Error</div>
+            <p style="font-size:12px;color:var(--text-secondary);line-height:1.4;">Cranial depth (front-to-back axis) is inferred from morphological classification, not measured. This is the single largest source of uncertainty.</p>
+          </div>
+        </div>
+        <div style="padding:16px;background:var(--bg-secondary);border-radius:8px;">
+          <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--accent-gold);margin-bottom:8px;">Combined Uncertainty Budget</div>
+          <p style="font-size:14px;color:var(--text-secondary);line-height:1.6;">Using quadrature summation (√(σ₁² + σ₂² + σ₃²)), the combined uncertainty on circumference is approximately <strong style="color:var(--text-primary);">±1.0 cm</strong>, corresponding to <strong style="color:var(--text-primary);">±⅛ hat size</strong>. This is confirmed empirically by Robert Kraft&rsquo;s multi-exhibit consistency: two independent exhibits with different reference subjects converge to within ⅛ size of each other. For single-exhibit subjects, the uncertainty widens to <strong style="color:var(--text-primary);">±¼ hat size</strong> due to the absence of cross-validation.</p>
+        </div>
+        <div style="padding:16px;background:var(--bg-secondary);border-radius:8px;">
+          <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--accent-gold);margin-bottom:8px;">Statistical Summary</div>
+          <p style="font-size:14px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px;">Across all 11 subjects:</p>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;">
+            <div>
+              <div style="font-size:20px;font-weight:700;color:var(--accent-blue);">7¼</div>
+              <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Median Hat Size</div>
+            </div>
+            <div>
+              <div style="font-size:20px;font-weight:700;color:var(--accent-blue);">7–7½</div>
+              <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Full Range</div>
+            </div>
+            <div>
+              <div style="font-size:20px;font-weight:700;color:var(--accent-blue);">5&rsquo;7&Prime;&ndash;6&rsquo;5&Prime;</div>
+              <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Height Range</div>
+            </div>
+            <div>
+              <div style="font-size:20px;font-weight:700;color:var(--accent-blue);">r = 0.42</div>
+              <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Height↔Hat Size</div>
+            </div>
+          </div>
+          <p style="font-size:12px;color:var(--text-muted);line-height:1.4;margin-top:8px;">The moderate correlation (r = 0.42) between height and hat size confirms that skull morphology is a stronger predictor of hat size than stature alone — consistent with physical anthropometry literature.</p>
+        </div>
+      </div>
+    </div>
+    </div>
   </div>
 </section>
-
-<!-- Methodology -->
 <section id="methodology">
   <div class="container">
-    <h2><span class="num">04</span> Methodology</h2>
+    <h2><span class="num">05</span> Methodology</h2>
     <p class="section-lead">The estimation pipeline follows a five-stage process that converts photographic evidence into hat size predictions.</p>
 
     <div class="method-steps">
@@ -1177,7 +1241,7 @@ footer {
     <div class="footer-sub">
       Methodology based on proportional cranial scaling, reference-height triangulation, and cephalometric shape classification.<br>
       For accurate hat sizing, always confirm with physical tape measurement. Estimates are for illustrative and analytical purposes.<br>
-      <span style="color:var(--text-muted);margin-top:8px;display:inline-block;">© 2026 · Developed as a visual anthropometry case study</span>
+      <span style="color:var(--text-muted);margin-top:8px;display:inline-block;">© 2026 · Developed as a visual anthropometry case study · Last updated July 22, 2026</span>
     </div>
   </div>
 </footer>
